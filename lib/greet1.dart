@@ -11,6 +11,14 @@ class _Greet1State extends State<Greet1> {
   final tec = TextEditingController(text: 'Mark'); // initial value
 
   @override
+  void initState() {
+    super.initState();
+    // This triggers a rebuild of the widget
+    // so the suffixIcon can be reevaluated.
+    tec.addListener(() => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -19,10 +27,12 @@ class _Greet1State extends State<Greet1> {
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Name',
-            suffixIcon: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () => setState(() => tec.text = ''),
-            ),
+            suffixIcon: tec.text.isEmpty
+                ? Container(width: 0)
+                : IconButton(
+                    icon: Icon(Icons.close, size: 18),
+                    onPressed: () => setState(() => tec.text = ''),
+                  ),
           ),
         ),
         // This is needed to listen for changes in the TextEditingController.

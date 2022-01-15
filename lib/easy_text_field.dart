@@ -32,14 +32,22 @@ class _EasyTextFieldState extends State<EasyTextField> {
       decoration: InputDecoration(
         border: OutlineInputBorder(),
         labelText: widget.label,
-        suffixIcon: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () {
-            setState(() => tec.text = '');
-            widget.onChanged!('');
-          },
-        ),
+        suffixIcon: tec.text.isEmpty
+            ? Container(width: 0)
+            : IconButton(
+                icon: Icon(Icons.close, size: 18),
+                onPressed: () {
+                  setState(() => tec.text = '');
+                  // This causes a new value for
+                  // the "value" parameter to be passed in
+                  // which allows the suffixIcon to be reevaluated.
+                  // Unlike in Greet1 there is no need to
+                  // add a listener to the TextEditingController.
+                  widget.onChanged!('');
+                },
+              ),
       ),
+      keyboardType: TextInputType.number,
       onChanged: widget.onChanged,
     );
   }

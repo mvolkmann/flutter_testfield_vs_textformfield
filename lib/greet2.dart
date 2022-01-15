@@ -18,10 +18,13 @@ class _Greet2State extends State<Greet2> {
           decoration: InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Name',
-            suffixIcon: IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () => setState(() => name = ''),
-            ),
+            suffixIcon: name.isEmpty
+                ? Container(width: 0)
+                : IconButton(
+                    icon: Icon(Icons.close, size: 18),
+                    // This doesn't clear the text displayed!
+                    onPressed: () => setState(() => name = ''),
+                  ),
           ),
           initialValue: name,
           onChanged: (String value) {
